@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SIGNAL — Adaptive ASL Learning for Emergencies</title>
+  <meta name="description" content="SIGNAL is an adaptive ASL learning and practice platform for emergencies. Learn Help, Emergency, Fire, and Ambulance signs." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Top navigation (hidden until user enters app) -->
+  <header id="topnav" class="topnav" hidden>
+    <div class="nav-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">✦</span>
+        <span class="brand-name">SIGNAL</span>
+      </div>
+      <nav aria-label="Primary">
+        <ul class="nav-links">
+          <li><button class="nav-btn" data-target="learning">Learning</button></li>
+          <li><button class="nav-btn" data-target="practice">Practice</button></li>
+          <li><button class="nav-btn" data-target="achievements">Achievements</button></li>
+        </ul>
+      </nav>
+      <div class="nav-user" aria-live="polite">
+        <span class="nav-user-label">Signed in as</span>
+        <strong id="navUserName">—</strong>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ============ WELCOME ============ -->
+    <section id="welcome" class="view view-welcome is-active" aria-labelledby="welcomeTitle">
+      <div class="welcome-wrap">
+        <div class="welcome-card">
+          <p class="eyebrow">SIGNAL</p>
+          <h1 id="welcomeTitle" class="display">Adaptive ASL learning<br/>for the moments that matter most.</h1>
+          <p class="lede">A calm, focused platform for mastering essential emergency signs — <em>Help</em>, <em>Emergency</em>, <em>Fire</em>, and <em>Ambulance</em> — through guided lessons and short practice quizzes.</p>
+
+          <div class="about-grid">
+            <div class="about-item">
+              <h3>Guided Learning</h3>
+              <p>Four short, illustrated chapters walk you through each sign step by step.</p>
+            </div>
+            <div class="about-item">
+              <h3>Active Practice</h3>
+              <p>Read a description, recognize the sign. Immediate, honest feedback every time.</p>
+            </div>
+            <div class="about-item">
+              <h3>Quiet Progress</h3>
+              <p>Your time and accuracy are tracked privately in this browser session only.</p>
+            </div>
+          </div>
+
+          <form id="welcomeForm" class="welcome-form" novalidate>
+            <label for="nameInput">Enter your name</label>
+            <div class="field-row">
+              <input id="nameInput" name="name" type="text" autocomplete="given-name" placeholder="e.g. Avery" required />
+              <button type="submit" class="btn btn-primary">Continue</button>
+            </div>
+            <p id="nameError" class="field-error" role="alert" hidden>Please enter your name to continue.</p>
+          </form>
+        </div>
+        <footer class="welcome-foot">No accounts. No tracking. Your session ends when you close the tab.</footer>
+      </div>
+    </section>
+
+    <!-- ============ LEARNING ============ -->
+    <section id="learning" class="view" aria-labelledby="learningTitle" hidden>
+      <div class="container">
+        <header class="page-head">
+          <p class="eyebrow">Chapter Library</p>
+          <h2 id="learningTitle" class="page-title">Learning Center</h2>
+          <p class="page-sub">Open a chapter to study the sign, then mark it complete when you're confident.</p>
+        </header>
+
+        <div class="chapter-grid" id="chapterGrid"></div>
+      </div>
+    </section>
+
+    <!-- ============ PRACTICE ============ -->
+    <section id="practice" class="view" aria-labelledby="practiceTitle" hidden>
+      <div class="container narrow">
+        <header class="page-head">
+          <p class="eyebrow">Quiz</p>
+          <h2 id="practiceTitle" class="page-title">Practice What You Learned</h2>
+          <p class="page-sub instruction">Read the sign description carefully and choose the correct ASL emergency sign.</p>
+        </header>
+
+        <div id="quizArea"></div>
+      </div>
+    </section>
+
+    <!-- ============ ACHIEVEMENTS ============ -->
+    <section id="achievements" class="view" aria-labelledby="achTitle" hidden>
+      <div class="container">
+        <header class="page-head">
+          <p class="eyebrow">Your Dashboard</p>
+          <h2 id="achTitle" class="page-title">Achievements</h2>
+          <p class="page-sub">A live look at your activity this session.</p>
+        </header>
+
+        <div class="stat-grid">
+          <article class="stat-card">
+            <h3>Learning Time</h3>
+            <p class="stat-value" id="statLearningTime">0m 0s</p>
+            <p class="stat-foot">Time spent in the Learning Center</p>
+          </article>
+          <article class="stat-card">
+            <h3>Practice Time</h3>
+            <p class="stat-value" id="statPracticeTime">0m 0s</p>
+            <p class="stat-foot">Time spent practicing signs</p>
+          </article>
+          <article class="stat-card progress-card">
+            <h3>Completed Chapters</h3>
+            <div class="ring-wrap">
+              <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="ring-bg" cx="60" cy="60" r="52"></circle>
+                <circle class="ring-fg" id="ringChapters" cx="60" cy="60" r="52"></circle>
+              </svg>
+              <div class="ring-label"><span id="chapterCountText">0/4</span></div>
+            </div>
+          </article>
+          <article class="stat-card progress-card">
+            <h3>Quiz Score</h3>
+            <div class="ring-wrap">
+              <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="ring-bg" cx="60" cy="60" r="52"></circle>
+                <circle class="ring-fg gold" id="ringScore" cx="60" cy="60" r="52"></circle>
+              </svg>
+              <div class="ring-label"><span id="scoreText">0%</span></div>
+            </div>
+            <p class="stat-foot" id="scoreFoot">No quiz attempted yet</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Chapter Modal -->
+  <div id="chapterModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="chapterModalTitle" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel modal-wide">
+      <button class="modal-close" data-close aria-label="Close chapter">×</button>
+      <div id="chapterModalBody"></div>
+    </div>
+  </div>
+
+  <!-- Welcome Popup -->
+  <div id="welcomePopup" class="modal" role="dialog" aria-modal="true" aria-labelledby="welcomePopupTitle" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="modal-panel">
+      <h3 id="welcomePopupTitle" class="modal-title">Welcome, <span id="popupName">Friend</span>!</h3>
+      <p class="modal-body">Ready to begin your emergency ASL learning journey.</p>
+      <div class="modal-actions">
+        <button id="popupEnter" class="btn btn-primary">Let's begin</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feedback Popup (correct / incorrect) -->
+  <div id="feedbackPopup" class="modal" role="dialog" aria-modal="true" aria-labelledby="feedbackTitle" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel">
+      <div id="feedbackIcon" class="feedback-icon" aria-hidden="true">✓</div>
+      <h3 id="feedbackTitle" class="modal-title">Correct!</h3>
+      <p id="feedbackBody" class="modal-body"></p>
+      <div class="modal-actions">
+        <button id="feedbackBtn" class="btn btn-primary">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flash overlays -->
+  <div id="flashCorrect" class="flash flash-correct" aria-hidden="true"></div>
+  <div id="flashWrong" class="flash flash-wrong" aria-hidden="true"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
